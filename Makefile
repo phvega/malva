@@ -39,9 +39,9 @@ CLASSES += src/malva/java/util/regex/PatternTest.class
 
 SRC	:= $(patsubst %.class,%.java,$(CLASSES))
 
-%.class: %.java
-	$(E) "  JAVAC   " $<
-	$(Q) $(JAVAC) -g -Xlint:unchecked -source 1.6 -target 1.6 -encoding utf8 -cp src $<
+$(CLASSES): $(SRC)
+	$(E) "  JAVAC   " $?
+	$(Q) $(JAVAC) -g -Xlint:unchecked -source 1.6 -target 1.6 -encoding utf8 -cp src $?
 
 all: $(CLASSES)
 .PHONY: all
