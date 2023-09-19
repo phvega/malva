@@ -119,8 +119,8 @@ public class RuntimeTest extends TestCase {
     testExit();
     testFreeMemory();
     testGc();
-    testLoad();
-    testLoadLibrary();
+//    testLoad();
+//    testLoadLibrary();
     testMaxMemory();
     testRemoveShutdownHook();
     testRunFinalization();

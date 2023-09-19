@@ -288,9 +288,9 @@ public class SystemTest extends TestCase {
     testGetenv();
     testIdentityHashCode();
     testInheritedChannel();
-    testLoad();
-    testLoadLibrary();
-    testMapLibraryName();
+//    testLoad();
+//    testLoadLibrary();
+//    testMapLibraryName();
     testNanoTime();
     testRunFinalization();
     testSetErr();

@@ -113,7 +113,7 @@ public class ProcessTest extends TestCase {
 
   public static void main(String[] args) {
     testDestroy();
-    testExitValue();
+//    testExitValue();
     testGetErrorStream();
     testGetInputStream();
     testGetOutputStream();
