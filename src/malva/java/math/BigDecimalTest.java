@@ -1,6 +1,7 @@
 package malva.java.math;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import malva.TestCase;
 
@@ -11,7 +12,21 @@ public class BigDecimalTest extends TestCase {
     assertEquals(new BigDecimal("1e5"), new BigDecimal("100000").stripTrailingZeros());
   }
 
+  public static void testToPlainString() {
+    // Positive scale
+    BigDecimal bd = new BigDecimal(-10);
+    assertEquals("-10", bd.toPlainString());
+
+    // Negative scale
+    bd = bd.stripTrailingZeros();
+    assertEquals("-10", bd.toPlainString());
+
+    bd = new BigDecimal(new BigInteger("-1", 10), -1);
+    assertEquals("-10", bd.toPlainString());
+  }
+
   public static void main(String[] args) {
     testStripTrailingZeros();
+    testToPlainString();
   }
 }
