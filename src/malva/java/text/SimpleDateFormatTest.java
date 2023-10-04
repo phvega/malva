@@ -13,6 +13,6 @@ public class SimpleDateFormatTest extends TestCase {
   }
 
   public static void main(String[] args) throws Exception {
-    testParse();
+//    testParse();
   }
 }
