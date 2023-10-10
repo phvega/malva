@@ -36,6 +36,14 @@ public class TestCase {
     fail("Expected " + type.toString() + " to be thrown");
   }
 
+  protected static void assertDoesNotThrow(Block block) {
+    try {
+      block.run();
+    } catch (Throwable t) {
+      fail("Unexpected exception " + t.getClass().getName() + " was thrown");
+    }
+  }
+
   protected static void assertTrue(boolean actual) {
     assertEquals(true, actual);
   }
