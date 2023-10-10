@@ -6,6 +6,19 @@ import java.math.BigInteger;
 import malva.TestCase;
 
 public class BigDecimalTest extends TestCase {
+  public static void testSetScale() {
+    // Throw exception when rounding is neccessary
+    assertThrows(new Block() {
+      @Override public void run() {
+        new BigDecimal("12.34").setScale(1, BigDecimal.ROUND_UNNECESSARY);
+      }
+    }, ArithmeticException.class);
+
+    // Allow negative values too
+    assertEquals(new BigDecimal(new BigInteger("1234"), -1), new BigDecimal("12340").setScale(-1));
+    assertEquals(new BigDecimal(new BigInteger("12340"), 1), new BigDecimal("1234").setScale(1));
+  }
+
   public static void testStripTrailingZeros() {
     assertEquals(new BigDecimal("0.1234"), new BigDecimal("0.1234000").stripTrailingZeros());
     assertEquals(BigDecimal.ZERO, new BigDecimal("0e2").stripTrailingZeros());
@@ -103,6 +116,7 @@ public class BigDecimalTest extends TestCase {
   }
 
   public static void main(String[] args) {
+    testSetScale();
     testStripTrailingZeros();
     testToEngineeringString();
     testToPlainString();
