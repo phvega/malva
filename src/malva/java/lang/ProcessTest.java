@@ -5,15 +5,18 @@ import java.io.IOException;
 import malva.TestCase;
 
 public class ProcessTest extends TestCase {
+  public static void testDestroy() throws Exception {
+    final Process process = Runtime.getRuntime().exec("true");
+    Thread waiter = new Thread(new Runnable() {
+      @Override public void run() {
+        process.destroy();
+      }
+    });
 
-  public static void testDestroy() {
-    ProcessBuilder processBuilder = new ProcessBuilder("echo", "test");
-    try {
-      Process process = processBuilder.start();
-      process.destroy();
-    } catch (IOException e) {
-      fail("Test failed: " + e.getMessage());
-    }
+    waiter.start();
+    waiter.join(100);
+    if (waiter.isAlive())
+      fail("Took too long to destroy process");
   }
 
   public static void testExitValue() {
@@ -79,28 +82,22 @@ public class ProcessTest extends TestCase {
     }
   }
 
-  public static void testWaitFor() {
-    Thread testerThread = new Thread(new Runnable() {
+  public static void testWaitFor() throws Exception {
+    final Process process = Runtime.getRuntime().exec("true");
+    Thread waiter = new Thread(new Runnable() {
       @Override public void run() {
-        ProcessBuilder processBuilder = new ProcessBuilder("env");
         try {
-          final Process process = processBuilder.start();
-          // Read all output after which the process will complete
-          while (process.getInputStream().read() != -1);
           process.waitFor();
-        } catch (Exception e) {
-          fail("Test failed: "  + e.getMessage());
+        } catch (Exception ignored) {
+          /* Main thread will detected that we died */
         }
       }
     });
 
-    testerThread.start();
-
-    try {
-      testerThread.join(100);
-    } catch (InterruptedException e) {
-      fail("Test failed as test did not complete in time: " + e.getMessage());
-    }
+    waiter.start();
+    waiter.join(100);
+    if (waiter.isAlive())
+      fail("Started process did not complete in time");
   }
 
   public static void testInterrupted()
@@ -121,7 +118,7 @@ public class ProcessTest extends TestCase {
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     testDestroy();
 //    testExitValue();
     testGetErrorStream();
